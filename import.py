@@ -87,17 +87,17 @@ tickets = []
 for row in range(numTickets-1):
     tickets.append(
         Ticket(sheet.cell(row=row+2, column=9).value, 
-        "Original ticket number: " + sheet.cell(row=row+2, column=2).value + "\n" +
-        "Created on: " + str(sheet.cell(row=row+2, column=5).value) + "\n" +
-        "Reason for request: " + sheet.cell(row=row+2, column=10).value + "\n" +
-        "Request area: " + sheet.cell(row=row+2, column=11).value + "\n" +
-        "Request sub-type: " + sheet.cell(row=row+2, column=12).value + "\n" +
-        "Originally submitted by: " + sheet.cell(row=row+2, column=15).value + sheet.cell(row=row+2, column=16).value + "\n" +
-        "Job Title: " + sheet.cell(row=row+2, column=19).value + "\n" +
-        "Team: " + sheet.cell(row=row+2, column=20).value + "\n" +
-        "CC: " + sheet.cell(row=row+2, column=27).value + "\n" +
-        "Attachment names: " + sheet.cell(row=row+2, column=30).value + "\n" +
-        "Original Description: " + sheet.cell(row=row+2, column=13).value + "\n")
+        "Original ticket number: " + sheet.cell(row=row+2, column=2).value + "<br>" +
+        "Created on: " + str(sheet.cell(row=row+2, column=5).value) + "<br>" +
+        "Reason for request: " + sheet.cell(row=row+2, column=10).value + "<br>" +
+        "Request area: " + sheet.cell(row=row+2, column=11).value + "<br>" +
+        "Request sub-type: " + sheet.cell(row=row+2, column=12).value + "<br>" +
+        "Originally submitted by: " + sheet.cell(row=row+2, column=15).value + " " + sheet.cell(row=row+2, column=16).value + "<br>" +
+        "Job Title: " + sheet.cell(row=row+2, column=19).value + "<br>" +
+        "Team: " + sheet.cell(row=row+2, column=20).value + "<br>" +
+        "CC: " + sheet.cell(row=row+2, column=27).value + "<br>" +
+        "Attachment names: " + sheet.cell(row=row+2, column=30).value + "<br>" +
+        "Original Description: " + sheet.cell(row=row+2, column=13).value + "<br>")
         )
 
 # for i in tickets:
