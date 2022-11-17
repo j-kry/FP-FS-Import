@@ -7,6 +7,8 @@ from openpyxl import load_workbook
 
 import requests
 
+import time
+
 #Will store data from csv in a Ticket Object
 class Ticket:
 
@@ -118,12 +120,16 @@ for j in tickets:
     'category' : CATEGORY
     }
 
-    # r = requests.post(
-    #     'https://thresholds.freshservice.com/api/v2/tickets',
-    #     json=payload, 
-    #     headers=JSONHEADER,
-    #     auth=("API KEY GOES HERE", "X")
-    #     )
+    r = requests.post(
+        'https://thresholds.freshservice.com/api/v2/tickets',
+        json=payload, 
+        headers=JSONHEADER,
+        auth=("API KEY GOES HERE", "X")
+        )
 
     print("SENDING TICKET " + str(counter) + " of " + str(numTickets-1))
     counter+=1
+
+    #Wait a second every other ticket to avoid API rate limit
+    if(counter%2 == 0):
+        time.sleep(1)
