@@ -16,7 +16,7 @@ class Ticket:
         self.description = description
     
     def __repr__(self):
-        return self.subject + " " + self.description
+        return self.subject + "\n" + self.description
 
     def getSubject(self):
         return self.subject
@@ -83,10 +83,22 @@ print("READ " + str(numTickets-1) + " TICKETS FROM EXCEL")
 tickets = []
 
 #Iterate through the sheet starting at the second row
-#
+#numTickets-1 because we are adding 2 to the row. Loop range is not inclusive.
 for row in range(numTickets-1):
-    tickets.append(Ticket(sheet.cell(row=row+2, column=2).value, sheet.cell(row=row+2, column=9).value))
-    print("ROW " + str(row))
+    tickets.append(
+        Ticket(sheet.cell(row=row+2, column=9).value, 
+        "Original ticket number: " + sheet.cell(row=row+2, column=2).value + "\n" +
+        "Created on: " + str(sheet.cell(row=row+2, column=5).value) + "\n" +
+        "Reason for request: " + sheet.cell(row=row+2, column=10).value + "\n" +
+        "Request area: " + sheet.cell(row=row+2, column=11).value + "\n" +
+        "Request sub-type: " + sheet.cell(row=row+2, column=12).value + "\n" +
+        "Originally submitted by: " + sheet.cell(row=row+2, column=15).value + sheet.cell(row=row+2, column=16).value + "\n" +
+        "Job Title: " + sheet.cell(row=row+2, column=19).value + "\n" +
+        "Team: " + sheet.cell(row=row+2, column=20).value + "\n" +
+        "CC: " + sheet.cell(row=row+2, column=27).value + "\n" +
+        "Attachment names: " + sheet.cell(row=row+2, column=30).value + "\n" +
+        "Original Description: " + sheet.cell(row=row+2, column=13).value + "\n")
+        )
 
 for i in tickets:
     print(i)
