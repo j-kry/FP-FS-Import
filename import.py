@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
 import openpyxl
-import os
 
 from openpyxl import Workbook
 from openpyxl import load_workbook
