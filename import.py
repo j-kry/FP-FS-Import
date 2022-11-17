@@ -40,7 +40,7 @@ def FileOpen():
     return filePath 
 
 ##################
-#TICKET CONSTANTS#
+#####CONSTANTS####
 ##################
 
 #Phil ID
@@ -63,6 +63,7 @@ CATEGORY = "Imported Billing Ticket"
 #tags need to be an array
 TAGS = ["Imported Billing Ticket"]
 
+JSONHEADER = {'Content-Type' : 'application/json'}
 
 ####################
 #####Begin MAIN#####
@@ -100,5 +101,30 @@ for row in range(numTickets-1):
         "Original Description: " + sheet.cell(row=row+2, column=13).value + "\n")
         )
 
-for i in tickets:
-    print(i)
+# for i in tickets:
+#     print(i)
+
+counter = 1
+
+for j in tickets:
+
+    #Source is Slack to differentiate from 'real' tickets in reports
+    payload = {'requester_id': JUSTIN_REQUESTER_ID, 
+    'group_id' : JUSTIN_GROUP_ID, 
+    'subject' : j.getSubject(),
+    'status' : STATUS,
+    'priority' : PRIORITY,
+    'description' : j.getDescription(),
+    'source' : SOURCE,
+    'category' : CATEGORY
+    }
+
+    # r = requests.post(
+    #     'https://thresholds.freshservice.com/api/v2/tickets',
+    #     json=payload, 
+    #     headers=JSONHEADER,
+    #     auth=("API KEY GOES HERE", "X")
+    #     )
+
+    print("SENDING TICKET " + str(counter) + " of " + str(numTickets-1))
+    counter+=1
