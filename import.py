@@ -84,6 +84,12 @@ print("READ " + str(numTickets-1) + " TICKETS FROM EXCEL")
 #tickets array will hold all Ticket Objects
 tickets = []
 
+##Prep for category by column
+##if(sheet.cell == "Demographic Change")
+##category = "Demographic Change"
+##switch(sheet.cell)
+##case "Demographic Change": category = "Demographic Change" break
+
 #Iterate through the sheet starting at the second row
 #numTickets-1 because we are adding 2 to the row. Loop range is not inclusive.
 for row in range(numTickets-1):
