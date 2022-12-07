@@ -64,6 +64,11 @@ CATEGORY = "Imported Billing Ticket"
 #tags need to be an array
 TAGS = ["Imported Billing Ticket"]
 
+##Correction/Deletion - Service Note Billing Retraction
+##Member Record - DOB/SSN/RIN/Name Change
+BILLING_CATEGORIES = [""]
+BILLING_SUB_CATEGORIES = [""]
+
 JSONHEADER = {'Content-Type' : 'application/json'}
 
 ####################
