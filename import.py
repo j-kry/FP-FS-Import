@@ -90,6 +90,9 @@ JSONHEADER = {'Content-Type' : 'application/json'}
 # Load workbook from file prompt
 wb = load_workbook(filename=FileOpen())
 
+keyfile = open(FileOpen(), 'r')
+APIKEY = keyfile.readline()
+
 # Load worksheet
 sheet = wb.active
 
@@ -104,22 +107,40 @@ tickets = []
 #Iterate through the sheet starting at the second row
 #numTickets-1 because we are adding 2 to the row. Loop range is not inclusive.
 for row in range(numTickets-1):
+
+    subject = sheet.cell(row=row+2, column=9).value
+    tikNum = sheet.cell(row=row+2, column=2).value
+    createdOn = str(sheet.cell(row=row+2, column=5).value)
+    reqReason = sheet.cell(row=row+2, column=10).value
+    reqArea = sheet.cell(row=row+2, column=11).value
+    reqSubType = sheet.cell(row=row+2, column=12).value
+    origSubmitter = sheet.cell(row=row+2, column=17).value + " " + sheet.cell(row=row+2, column=18).value
+    jobTitle = sheet.cell(row=row+2, column=21).value
+    team = sheet.cell(row=row+2, column=22).value
+    cc = sheet.cell(row=row+2, column=29).value
+    attachName = sheet.cell(row=row+2, column=32).value
+    desc = sheet.cell(row=row+2, column=15).value
+    newCat = sheet.cell(row=row+2, column=13).value
+    newSubCat = sheet.cell(row=row+2, column=14).value
+    pendReason = sheet.cell(row=row+2, column=34).value
+
     tickets.append(
-        Ticket(sheet.cell(row=row+2, column=9).value, 
-        "Original ticket number: " + sheet.cell(row=row+2, column=2).value + "<br>" +
-        "Created on: " + str(sheet.cell(row=row+2, column=5).value) + "<br>" +
-        "Reason for request: " + sheet.cell(row=row+2, column=10).value + "<br>" +
-        "Request area: " + sheet.cell(row=row+2, column=11).value + "<br>" +
-        "Request sub-type: " + sheet.cell(row=row+2, column=12).value + "<br>" +
-        "Originally submitted by: " + sheet.cell(row=row+2, column=17).value + " " + sheet.cell(row=row+2, column=18).value + "<br>" +
-        "Job Title: " + sheet.cell(row=row+2, column=21).value + "<br>" +
-        "Team: " + sheet.cell(row=row+2, column=22).value + "<br>" +
-        "CC: " + sheet.cell(row=row+2, column=29).value + "<br>" +
-        "Attachment names: " + sheet.cell(row=row+2, column=32).value + "<br>" +
-        "Original Description: " + sheet.cell(row=row+2, column=15).value + "<br>",
-        sheet.cell(row=row+2, column=13).value,
-        sheet.cell(row=row+2, column=14).value,
-        sheet.cell(row=row+2, column=34).value)
+        Ticket(
+        subject, 
+        f"Original ticket number: {tikNum}<br>" +
+        f"Created on: {createdOn}<br>" +
+        f"Reason for request: {reqReason}<br>" +
+        f"Request area: {reqArea}<br>" +
+        f"Request sub-type: {reqSubType}<br>" +
+        f"Originally submitted by: {origSubmitter}<br>" +
+        f"Job Title: {jobTitle}<br>" +
+        f"Team: {team}<br>" +
+        f"CC: {cc}<br>" +
+        f"Attachment names: {attachName}<br>" +
+        f"Original Description: {desc}<br>",
+        newCat,
+        newSubCat,
+        pendReason)
         )
 
 # for i in tickets:
@@ -129,18 +150,7 @@ counter = 1
 
 for j in tickets:
 
-    #OLD PAYLOAD WITH NO CATEGORY DISTINCTION
-    # payload = {'requester_id': JUSTIN_REQUESTER_ID, 
-    # 'group_id' : JUSTIN_GROUP_ID, 
-    # 'subject' : j.getSubject(),
-    # 'status' : STATUS,
-    # 'priority' : PRIORITY,
-    # 'description' : j.getDescription(),
-    # 'source' : SOURCE,
-    # 'category' : CATEGORY
-    # }
-
-    subcategory = "" if j.getNewSubCat() == "ZZemptyZZ" else j.getNewSubCat()
+    subcategory = "" if j.getNewSubCat() == "None" else j.getNewSubCat()
 
     #Test payload
     #Source is Slack to differentiate from 'real' tickets in reports
@@ -154,15 +164,16 @@ for j in tickets:
     'category' : j.getNewCat(),
     'sub_category': subcategory,
     'custom_fields' : {"pending_reason" : j.getPendingReason()},
-    'tags' : TAGS
+    'tags' : TAGS,
+    'responder_id' : JUSTIN_REQUESTER_ID
     }
 
-    # r = requests.post(
-    #     'https://thresholds.freshservice.com/api/v2/tickets',
-    #     json=payloadNew, 
-    #     headers=JSONHEADER,
-    #     auth=("API KEY GOES HERE", "X")
-    #     )
+    r = requests.post(
+        'https://thresholds.freshservice.com/api/v2/tickets',
+        json=payloadNew, 
+        headers=JSONHEADER,
+        auth=(APIKEY, "X")
+        )
 
     print("SENDING TICKET " + str(counter) + " of " + str(numTickets-1))
     counter+=1
