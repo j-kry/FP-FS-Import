@@ -7,14 +7,18 @@ from openpyxl import load_workbook
 
 import requests
 
+import json
+
 import time
 
 #Will store data from csv in a Ticket Object
 class Ticket:
 
-    def __init__(self, subject, description):
+    def __init__(self, subject, description, newCat, newSubCat):
         self.subject = subject
         self.description = description
+        self.newCat = newCat
+        self.newSubCat = newSubCat
     
     def __repr__(self):
         return self.subject + "\n" + self.description
@@ -23,11 +27,19 @@ class Ticket:
         return self.subject
     def getDescription(self):
         return self.description
+    def getNewCat(self):
+        return self.newCat
+    def getNewSubCat(self):
+        return self.newSubCat
 
     def setSubject(self, subject):
         self.subject = subject
     def setDescription(self, description):
         self.description = description
+    def setNewCat(self, newCat):
+        self.newCat = newCat
+    def setNewSubCat(self, newSubCat):
+        self.newSubCat = newSubCat
 
 def FileOpen():
 
@@ -105,12 +117,14 @@ for row in range(numTickets-1):
         "Reason for request: " + sheet.cell(row=row+2, column=10).value + "<br>" +
         "Request area: " + sheet.cell(row=row+2, column=11).value + "<br>" +
         "Request sub-type: " + sheet.cell(row=row+2, column=12).value + "<br>" +
-        "Originally submitted by: " + sheet.cell(row=row+2, column=15).value + " " + sheet.cell(row=row+2, column=16).value + "<br>" +
+        "Originally submitted by: " + sheet.cell(row=row+2, column=17).value + " " + sheet.cell(row=row+2, column=18).value + "<br>" +
         "Job Title: " + sheet.cell(row=row+2, column=19).value + "<br>" +
         "Team: " + sheet.cell(row=row+2, column=20).value + "<br>" +
         "CC: " + sheet.cell(row=row+2, column=27).value + "<br>" +
         "Attachment names: " + sheet.cell(row=row+2, column=30).value + "<br>" +
-        "Original Description: " + sheet.cell(row=row+2, column=13).value + "<br>")
+        "Original Description: " + sheet.cell(row=row+2, column=15).value + "<br>",
+        sheet.cell(row=row+2, column=13).value,
+        sheet.cell(row=row+2, column=14).value)
         )
 
 # for i in tickets:
@@ -131,14 +145,27 @@ for j in tickets:
     'category' : CATEGORY
     }
 
-    r = requests.post(
-        'https://thresholds.freshservice.com/api/v2/tickets',
-        json=payload, 
-        headers=JSONHEADER,
-        auth=("API KEY GOES HERE", "X")
-        )
+    #Test payload
+    payloadTest = {'requester_id': JUSTIN_REQUESTER_ID, 
+    'group_id' : JUSTIN_GROUP_ID, 
+    'subject' : j.getSubject(),
+    'status' : STATUS,
+    'priority' : PRIORITY,
+    'description' : j.getDescription(),
+    'source' : SOURCE,
+    'category' : j.getNewCat(),
+    'sub_category': j.getNewSubCat()
+    }
+
+    # r = requests.post(
+    #     'https://thresholds.freshservice.com/api/v2/tickets',
+    #     json=payload, 
+    #     headers=JSONHEADER,
+    #     auth=("API KEY GOES HERE", "X")
+    #     )
 
     print("SENDING TICKET " + str(counter) + " of " + str(numTickets-1))
+    print(json.dumps(payloadTest, indent=4))
     counter+=1
 
     #Wait a second every other ticket to avoid API rate limit
