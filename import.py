@@ -144,7 +144,7 @@ for j in tickets:
 
     #Test payload
     #Source is Slack to differentiate from 'real' tickets in reports
-    payloadTest = {'requester_id': JUSTIN_REQUESTER_ID, 
+    payloadNew = {'requester_id': JUSTIN_REQUESTER_ID, 
     'group_id' : JUSTIN_GROUP_ID, 
     'subject' : j.getSubject(),
     'status' : STATUS,
@@ -159,13 +159,12 @@ for j in tickets:
 
     # r = requests.post(
     #     'https://thresholds.freshservice.com/api/v2/tickets',
-    #     json=payload, 
+    #     json=payloadNew, 
     #     headers=JSONHEADER,
     #     auth=("API KEY GOES HERE", "X")
     #     )
 
     print("SENDING TICKET " + str(counter) + " of " + str(numTickets-1))
-    print(json.dumps(payloadTest, indent=4))
     counter+=1
 
     #Wait a second every other ticket to avoid API rate limit
