@@ -62,9 +62,11 @@ def FileOpen():
 ##################
 
 #Phil ID
-REQUESTER_ID = 20001321742
+PHIL_REQUESTER_ID = 20001321742
 #Justin-Test ID
 JUSTIN_REQUESTER_ID = 20000651361
+#Footprints Import ID
+FP_REQUESTER_ID = 20000710395
 #Phil Group EMR Billing
 BILLING_GROUP_ID = 20000342334
 #HIS Group
@@ -156,7 +158,7 @@ for j in tickets:
 
     #Test payload
     #Source is Slack to differentiate from 'real' tickets in reports
-    payloadNew = {'requester_id': JUSTIN_REQUESTER_ID, 
+    payloadNew = {'requester_id': FP_REQUESTER_ID, 
     'group_id' : HIS_GROUP_ID, 
     'subject' : j.getSubject(),
     'status' : STATUS,
@@ -166,7 +168,8 @@ for j in tickets:
     'category' : j.getNewCat(),
     'sub_category': subcategory,
     'custom_fields' : {"pending_reason" : j.getPendingReason()},
-    'tags' : TAGS
+    'tags' : TAGS,
+    'responder_id' : PHIL_REQUESTER_ID
     }
 
     try:
