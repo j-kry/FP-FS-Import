@@ -166,8 +166,7 @@ for j in tickets:
     'category' : j.getNewCat(),
     'sub_category': subcategory,
     'custom_fields' : {"pending_reason" : j.getPendingReason()},
-    'tags' : TAGS,
-    'responder_id' : JUSTIN_REQUESTER_ID
+    'tags' : TAGS
     }
 
     try:
