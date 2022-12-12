@@ -157,7 +157,7 @@ for j in tickets:
     #Test payload
     #Source is Slack to differentiate from 'real' tickets in reports
     payloadNew = {'requester_id': JUSTIN_REQUESTER_ID, 
-    'group_id' : HIS_GROUP_ID, 
+    'group_id' : JUSTIN_GROUP_ID, 
     'subject' : j.getSubject(),
     'status' : STATUS,
     'priority' : PRIORITY,
@@ -170,12 +170,15 @@ for j in tickets:
     'responder_id' : JUSTIN_REQUESTER_ID
     }
 
-    r = requests.post(
-        'https://thresholds.freshservice.com/api/v2/tickets',
-        json=payloadNew, 
-        headers=JSONHEADER,
-        auth=(APIKEY, "X")
-        )
+    try:
+        print(requests.post(
+            'https://thresholds.freshservice.com/api/v2/tickets',
+            json=payloadNew, 
+            headers=JSONHEADER,
+            auth=(APIKEY, "X")
+            ).raise_for_status())
+    except requests.exceptions.HTTPError as err:
+        print(err)
 
     print("SENDING TICKET " + str(counter) + " of " + str(numTickets-1))
     counter+=1
