@@ -110,7 +110,7 @@ tickets = []
 #numTickets-1 because we are adding 2 to the row. Loop range is not inclusive.
 for row in range(numTickets-1):
 
-    subject = "IMPORTED" + sheet.cell(row=row+2, column=9).value
+    subject = "IMPORTED-" + sheet.cell(row=row+2, column=9).value
     tikNum = sheet.cell(row=row+2, column=2).value
     createdOn = str(sheet.cell(row=row+2, column=5).value)
     reqReason = sheet.cell(row=row+2, column=10).value
@@ -157,7 +157,7 @@ for j in tickets:
     #Test payload
     #Source is Slack to differentiate from 'real' tickets in reports
     payloadNew = {'requester_id': JUSTIN_REQUESTER_ID, 
-    'group_id' : JUSTIN_GROUP_ID, 
+    'group_id' : HIS_GROUP_ID, 
     'subject' : j.getSubject(),
     'status' : STATUS,
     'priority' : PRIORITY,
